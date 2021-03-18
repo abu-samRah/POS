@@ -1,17 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { ThemeProvider } from '@material-ui/core';
-import theme from './themes/Theme'
+import Theme from './themes/Theme'
+import ButtonComp from './components/Button/ButtonComp';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-      <header className="App-header">
-        Welcome to POS project
-      </header>
-    </div>
+    <ThemeProvider theme={Theme}>
+      <ButtonComp />
     </ThemeProvider>
 
   );

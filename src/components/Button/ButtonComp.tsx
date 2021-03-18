@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 function ButtonComp() {
      const classes = useStyles();
-     return <Button className={classes.root}>Button</Button>;
+     return <Button variant="contained" color="secondary" >Button</Button>;
 }
 
 export default ButtonComp
