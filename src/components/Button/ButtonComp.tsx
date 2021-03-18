@@ -15,9 +15,11 @@ const useStyles = makeStyles({
 });
 
 
-function ButtonComp() {
+function ButtonComp(props:any) {
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      const classes = useStyles();
-     return <Button variant="contained" color="secondary" >Button</Button>;
+
+     return <Button variant={props.variant} color="secondary" >Button</Button>;
 }
 
 export default ButtonComp

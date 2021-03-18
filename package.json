@@ -26,7 +26,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "start-api" : "json-server --watch src/mocks/db.json --port 3004"
+    "start-api": "json-server --watch src/mocks/db.json --port 3004"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-controls": "^6.1.21",
     "@storybook/addon-essentials": "^6.1.21",
     "@storybook/addon-links": "^6.1.21",
     "@storybook/node-logger": "^6.1.21",
