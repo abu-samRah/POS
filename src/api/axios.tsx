@@ -1,11 +1,9 @@
-import axios, {AxiosResponse,AxiosInstance} from 'axios';
- 
+import axios, { AxiosResponse, AxiosInstance } from 'axios';
 
-const connect :AxiosInstance =  axios.create({
+const connect: AxiosInstance = axios.create({
     baseURL: `http://localhost:3004`,
 });
-  
-export const get = (url: string) :Promise<AxiosResponse<any>> => {
-   return connect.get(url)
-}
 
+export const get = <T extends any>(url: string): Promise<AxiosResponse<T>> => {
+    return connect.get(url);
+};

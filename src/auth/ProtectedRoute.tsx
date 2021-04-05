@@ -1,25 +1,26 @@
-import React from 'react'
+import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
-import auth from './auth'
+import useAuth from '../hooks/useAuth';
 
-interface CustomizedRouteProps extends RouteProps{
-    component: new() => React.Component<any, any>
-}
-
-const ProtectedRoute: React.FC<CustomizedRouteProps> = ({component: Component,...rest}) => {
-  return (
-      <Route {...rest} render={(props) => {
-          
-          if (auth.isAuthenticated()) {
-              return <Component {...props}/>
-          } else {
-              return <Redirect to={{
-                  pathname: '/login', state: {
-                  from : props.location
-              } }} />
-          }
-          
-      }}/>
-    )
-}
-export default ProtectedRoute
+const ProtectedRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+    const { isAuthenticated } = useAuth(); // this one will  be updated because of the user state change
+    return (
+        <Route // what will happen if i do pass a component attribute to this route
+            {...rest}
+            // this location comes from where
+            render={({ location }) =>
+                isAuthenticated ? (
+                    children
+                ) : (
+                    <Redirect
+                        to={{
+                            pathname: '/login',
+                            state: { from: location },
+                        }}
+                    />
+                )
+            }
+        />
+    );
+};
+export default ProtectedRoute;
