@@ -1,13 +1,13 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import { Box, FormHelperText, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 import TextFieldInput from '../../components/TextField/TextFieldInput';
 import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Checkbox/Checkbox';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import validationSchema from './validationSchema';
 
@@ -19,8 +19,13 @@ const useStyles = makeStyles((theme) => {
     };
 });
 
+interface ILoginForm {
+    email: string;
+    password: string;
+    submit: string | null;
+}
+
 const LoginForm = () => {
-    const isMountedRef = useIsMountedRef();
     const classes = useStyles();
     const [shouldRememberUser, setShouldRememberUser] = React.useState(
         () => window.localStorage.getItem('rememberMe') === 'true' || false
@@ -35,55 +40,45 @@ const LoginForm = () => {
         setShouldRememberUser(event.target.checked);
     };
 
+    const handleSubmit = (
+        values: ILoginForm,
+        { setErrors, setStatus, setSubmitting }: FormikHelpers<ILoginForm>
+    ) => {
+        try {
+            if (shouldRememberUser) {
+                localStorage.setItem('email', values.email);
+                localStorage.setItem('rememberMe', String(shouldRememberUser));
+            } else {
+                localStorage.clear();
+            }
+
+            signin(values.email, values.password, () => {
+                if (isAuthenticated) {
+                    //redirect the user to the main page
+                    console.log(isAuthenticated);
+                    console.log(user);
+                    history.push('/app');
+                } else {
+                    setErrorMsg(true);
+                    setSubmitting(false);
+                }
+            });
+        } catch (err) {
+            setStatus({ success: false });
+            setErrors({ submit: err.message });
+            setSubmitting(false);
+        }
+    };
+
     return (
-        <Formik
+        <Formik<ILoginForm>
             initialValues={{
                 email: localStorage.getItem('email') || '',
                 password: 'iamcool1',
                 submit: null,
             }}
-            validationSchema={validationSchema()}
-            onSubmit={async (
-                values,
-                { setErrors, setStatus, setSubmitting }
-            ) => {
-                try {
-                    if (shouldRememberUser) {
-                        localStorage.setItem('email', values.email);
-                        localStorage.setItem(
-                            'rememberMe',
-                            String(shouldRememberUser)
-                        );
-                    } else {
-                        localStorage.clear();
-                    }
-
-                    await signin(values.email, values.password, () => {});
-                    if (isAuthenticated) {
-                        setErrorMsg(false);
-                        console.log(user);
-
-                        //redirect the user to the main page
-                        // <Redirect to={{ pathname: '/' }} />;
-                        // history.push (createBrowserHistory)
-                    } else {
-                        setErrorMsg(true);
-                        console.log(user);
-                    }
-
-                    if (isMountedRef.current) {
-                        setStatus({ success: true });
-                        setSubmitting(false);
-                    }
-                } catch (err) {
-                    console.error(err);
-                    if (isMountedRef.current) {
-                        setStatus({ success: false });
-                        setErrors({ submit: err.message });
-                        setSubmitting(false);
-                    }
-                }
-            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
         >
             {({
                 errors,

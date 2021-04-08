@@ -36,12 +36,12 @@ const useStyles = makeStyles((theme) => {
         currentMethodIcon: {
             height: 100,
             '& > img': {
-                width: 'auto',
-                maxHeight: '100%',
+                width: '15px',
+                maxHeight: '50%',
             },
         },
         logoIcon: {
-            height: 70,
+            height: 'fit-content',
         },
     };
 });
