@@ -10,7 +10,9 @@ export const AppRoutes: React.FC = () => (
         <Switch>
             <Route path="/login" component={Login} exact />
             <Route path="/404" component={Login} exact />
-            <ProtectedRoute path="/" component={Home} />
+            <ProtectedRoute path="/">
+                <Home />
+            </ProtectedRoute>
         </Switch>
     </Suspense>
 );

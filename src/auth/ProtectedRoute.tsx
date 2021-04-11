@@ -2,14 +2,20 @@ import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-const ProtectedRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-    const { isAuthenticated } = useAuth(); // this one will  be updated because of the user state change
+interface ProtectedRouteProps extends Omit<RouteProps, 'component'> {}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+    children,
+    ...rest
+}) => {
+    const auth = useAuth(); // this one will  be updated because of the user state change
+
     return (
         <Route // what will happen if i do pass a component attribute to this route
-            {...rest}
             // this location comes from where
+            {...rest}
             render={({ location }) =>
-                isAuthenticated ? (
+                auth.isAuthenticated ? (
                     children
                 ) : (
                     <Redirect

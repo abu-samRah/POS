@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import LoadingScreen from '../loading/Loading';
 import { Switch, Route } from 'react-router-dom';
-import Navbar from '../../components/NavBar/Nabbar';
+import Navbar from '../../components/NavBar';
 
 function setRoutes() {
     <Suspense fallback={<LoadingScreen />}>

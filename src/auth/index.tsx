@@ -4,14 +4,18 @@ import login from './login';
 
 const initial: IAuthContext = {
     isAuthenticated: false,
-    signin(userName, password, cb) {},
+    signin() {},
     signout(cb) {},
     user: undefined,
 };
 
 interface IAuthContext {
     isAuthenticated: boolean;
-    signin: (userName: string, password: string, cb: () => void) => void;
+    signin: (
+        userName: string,
+        password: string,
+        cb: (isAuthinticated: boolean) => void
+    ) => void;
     signout: (cb: () => void) => void;
     user: User | undefined;
 }
@@ -23,11 +27,11 @@ export const AuthContext = createContext<IAuthContext>(initial);
 function useProvideAuth() {
     const [user, setUser] = useState<User | undefined>();
 
-    const signin = (userName: string, password: string, cb: () => void) => {
+    const signin: IAuthContext['signin'] = (userName, password, cb) => {
         // posAxios.post(url.{})
         return login(userName, password).then((user) => {
             setUser(user);
-            cb();
+            cb(Boolean(user));
         });
         // you are using inital here because its the shared context and we are updating the user state inside it, so whenever something change the app will rerender and use the updated context
     };

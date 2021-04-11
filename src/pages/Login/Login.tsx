@@ -32,7 +32,7 @@ const LoginForm = () => {
     );
     const [errorMsg, setErrorMsg] = React.useState(false);
     let history = useHistory();
-    const { isAuthenticated, user, signin } = useAuth();
+    const { user, signin } = useAuth();
 
     const handleCheckboxChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -52,11 +52,9 @@ const LoginForm = () => {
                 localStorage.clear();
             }
 
-            signin(values.email, values.password, () => {
+            signin(values.email, values.password, (isAuthenticated) => {
                 if (isAuthenticated) {
                     //redirect the user to the main page
-                    console.log(isAuthenticated);
-                    console.log(user);
                     history.push('/app');
                 } else {
                     setErrorMsg(true);

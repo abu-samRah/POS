@@ -36,8 +36,9 @@ const useStyles = makeStyles((theme) => {
         currentMethodIcon: {
             height: 100,
             '& > img': {
-                width: '15px',
-                maxHeight: '50%',
+                marginTop: theme.spacing(1),
+                width: '50px',
+                maxHeight: '52%',
             },
         },
         logoIcon: {
