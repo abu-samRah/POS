@@ -8,11 +8,11 @@ import {
 } from '@material-ui/core';
 import useStyles from './Styles';
 import { Menu as MenuIcon } from '@material-ui/icons';
-import { NavBarHeadings } from '../../types';
+import { NavBarHeading } from '../../types';
 import { Link } from 'react-router-dom';
 
 interface IMobileDisplay {
-    headersData: NavBarHeadings[];
+    headersData: NavBarHeading[];
     setDisplayState: (value: boolean) => void;
     drawerOpen: boolean;
 }

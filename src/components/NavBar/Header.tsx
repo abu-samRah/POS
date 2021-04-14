@@ -1,45 +1,15 @@
 import { AppBar } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { NavBarHeadings } from '../../types';
+import { NavBarHeading } from '../../types';
 import DesktopDisplay from './DesktopDisplay';
 import MobileDisplay from './MobileDisplay';
 import useStyles from './Styles';
-import {
-    CreditCard as CreditCardIcon,
-    List as ListIcon,
-    ScatterPlot as ScatterPlotIcon,
-    ExitToApp as ExitToAppIcon,
-} from '@material-ui/icons';
+import { getHeadersData } from './constants';
 
 export function Header() {
     const classes = useStyles();
 
-    const headersData: NavBarHeadings[] = [
-        {
-            label: 'POS',
-            href: '/app',
-            iconName: 'CreditCardIcon',
-            icon: <CreditCardIcon className={classes.itemLogo} />,
-        },
-        {
-            label: 'Products',
-            href: '/products',
-            iconName: 'ListIcon',
-            icon: <ListIcon className={classes.itemLogo} />,
-        },
-        {
-            label: 'Catagories',
-            href: '/catagories',
-            iconName: 'ScatterPlotIcon',
-            icon: <ScatterPlotIcon className={classes.itemLogo} />,
-        },
-        {
-            label: 'Log Out',
-            href: '/logout',
-            iconName: 'ExitToAppIcon',
-            icon: <ExitToAppIcon className={classes.itemLogo} />,
-        },
-    ];
+    const headersData = getHeadersData(classes);
 
     const [state, setState] = useState({
         mobileView: false,
@@ -77,7 +47,7 @@ export function Header() {
     return (
         <header>
             <AppBar className={classes.header}>
-                {mobileView ? (
+                {mobileView || true ? (
                     <MobileDisplay
                         headersData={headersData}
                         drawerOpen={drawerOpen}

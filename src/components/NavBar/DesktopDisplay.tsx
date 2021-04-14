@@ -1,16 +1,17 @@
 import { Toolbar, Typography, Button, IconButton } from '@material-ui/core';
 import useStyles from './Styles';
-
-import { NavBarHeadings } from '../../types';
+import { useHistory } from 'react-router-dom';
+import { NavBarHeading } from '../../types';
 import { Link } from 'react-router-dom';
 import Logo from '../../res/Logo';
 
 interface IDesktopDisplay {
-    headersData: NavBarHeadings[];
+    headersData: NavBarHeading[];
 }
 
 const DesktopDisplay: React.FC<IDesktopDisplay> = ({ headersData }) => {
     const classes = useStyles();
+    let history = useHistory();
     return (
         <Toolbar className={classes.toolbar}>
             <Typography variant="h6" component="h1" className={classes.logo}>
@@ -25,16 +26,17 @@ const DesktopDisplay: React.FC<IDesktopDisplay> = ({ headersData }) => {
             <div>
                 {headersData.map(({ label, href, iconName, icon }) => {
                     return (
-                        <Link
-                            to={href}
+                        <Button
+                            onClick={() => {
+                                history.push(href);
+                            }}
                             color="inherit"
-                            component={Button}
                             className={classes.navbarItem}
                             key={label}
                         >
                             {icon}
                             {label}
-                        </Link>
+                        </Button>
                     );
                 })}
             </div>
