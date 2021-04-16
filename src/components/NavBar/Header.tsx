@@ -47,7 +47,7 @@ export function Header() {
     return (
         <header>
             <AppBar className={classes.header}>
-                {mobileView || true ? (
+                {mobileView ? (
                     <MobileDisplay
                         headersData={headersData}
                         drawerOpen={drawerOpen}
