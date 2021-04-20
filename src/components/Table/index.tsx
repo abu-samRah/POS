@@ -165,7 +165,6 @@ export function POSTable<T extends DefaultRow>({
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {console.log(rowsToShow)}
                             {rowsToShow.map((row) => (
                                 <TableRow hover key={row.id}>
                                     {columns.map((column) =>

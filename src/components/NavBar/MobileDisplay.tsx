@@ -9,7 +9,7 @@ import {
 import useStyles from './Styles';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import { NavBarHeading } from '../../types';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 interface IMobileDisplay {
     headersData: NavBarHeading[];
@@ -23,7 +23,7 @@ const MobileDisplay: React.FC<IMobileDisplay> = ({
     drawerOpen,
 }) => {
     const classes = useStyles();
-
+    const history = useHistory();
     return (
         <Toolbar>
             <IconButton
@@ -54,9 +54,10 @@ const MobileDisplay: React.FC<IMobileDisplay> = ({
                 >
                     {headersData.map(({ label, href, icon }) => {
                         return (
-                            <Link
-                                component={Button}
-                                to={href}
+                            <Button
+                                onClick={() => {
+                                    history.push(href);
+                                }}
                                 color="inherit"
                                 style={{ textDecoration: 'none' }}
                                 key={label}
@@ -65,7 +66,7 @@ const MobileDisplay: React.FC<IMobileDisplay> = ({
                                     {icon}
                                     {label}
                                 </MenuItem>
-                            </Link>
+                            </Button>
                         );
                     })}
                 </div>

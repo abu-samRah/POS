@@ -2,7 +2,6 @@ import { Toolbar, Typography, Button, IconButton } from '@material-ui/core';
 import useStyles from './Styles';
 import { useHistory } from 'react-router-dom';
 import { NavBarHeading } from '../../types';
-import { Link } from 'react-router-dom';
 import Logo from '../../res/Logo';
 
 interface IDesktopDisplay {
@@ -11,7 +10,7 @@ interface IDesktopDisplay {
 
 const DesktopDisplay: React.FC<IDesktopDisplay> = ({ headersData }) => {
     const classes = useStyles();
-    let history = useHistory();
+    const history = useHistory();
     return (
         <Toolbar className={classes.toolbar}>
             <Typography variant="h6" component="h1" className={classes.logo}>
