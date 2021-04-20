@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '15px',
         width: '100%',
     },
+    textWhite: {
+        color: 'white',
+    },
 }));
 
 export default useStyles;

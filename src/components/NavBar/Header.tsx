@@ -46,7 +46,7 @@ export function Header() {
 
     return (
         <header>
-            <AppBar className={classes.header}>
+            <AppBar position="sticky" className={classes.header}>
                 {mobileView ? (
                     <MobileDisplay
                         headersData={headersData}

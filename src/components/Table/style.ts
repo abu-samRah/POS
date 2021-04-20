@@ -1,7 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    conatiner: { marginTop: 30 },
+    pointer: { cursor: 'pointer' },
+    header: { fontWeight: 'bold' },
 }));
 
 export default useStyles;

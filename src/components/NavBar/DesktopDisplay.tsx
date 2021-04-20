@@ -20,7 +20,9 @@ const DesktopDisplay: React.FC<IDesktopDisplay> = ({ headersData }) => {
                         <Logo className={classes.logoIcon} />
                     </div>
 
-                    <Typography variant="h6">Point OF Sales</Typography>
+                    <Typography className={classes.textWhite} variant="h6">
+                        Point OF Sales
+                    </Typography>
                 </IconButton>
             </Typography>
             <div>

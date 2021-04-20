@@ -1,24 +1,23 @@
-import React, { useState, FC } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
     Box,
     Card,
-    SvgIcon,
     Table,
     TableBody,
     TableCell,
     TableHead,
-    IconButton,
     TablePagination,
     TableRow,
-    Button,
+    CardHeader,
+    Divider,
 } from '@material-ui/core';
-import { ArrowRight as ArrowRightIcon } from 'react-feather';
 import format from 'date-fns/format';
+import useStyles from './style';
 
 export const formatDate = (date: string) =>
     format(new Date(date), 'yyyy-MM-dd');
+
 const genPaginationLabel = ({
     from,
     to,
@@ -48,6 +47,8 @@ interface TableColumnHeading<T> {
 interface TableProps<T extends DefaultRow> {
     columns: TableColumnHeading<T>[];
     rows: T[];
+    title: string;
+    isPaginated: boolean;
 }
 interface DefaultRow {
     id?: string;
@@ -56,10 +57,13 @@ interface DefaultRow {
 export function POSTable<T extends DefaultRow>({
     columns,
     rows,
+    title,
+    isPaginated,
 }: TableProps<T>): JSX.Element {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
-
+    const [rowsToshow, setRowsToShow] = useState();
+    const classes = useStyles();
     const handlePageChange = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -70,36 +74,54 @@ export function POSTable<T extends DefaultRow>({
     };
 
     const paginatedRows = applyPagination(rows, page, limit);
-    const rowsToShow = paginatedRows;
+
+    const rowsToShow = isPaginated ? paginatedRows : rows;
 
     return (
         <Card>
+            {title && <CardHeader title={title} />}
+            {title && <Divider />}
             <PerfectScrollbar>
-                <Box minWidth={700}>
+                <Box minWidth={900}>
                     <Table>
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) =>
+                                    typeof column.Head === 'object' ||
                                     typeof column.Head === 'function' ? (
-                                        <column.Head />
-                                    ) : (
                                         <TableCell
+                                            className={classes.header}
                                             key={column.id}
                                             align={column.align}
                                             width={column.width}
                                         >
-                                            {column.Head}
+                                            {column.id}
+                                        </TableCell>
+                                    ) : (
+                                        <TableCell
+                                            className={classes.header}
+                                            key={column.id}
+                                            align={column.align}
+                                            width={column.width}
+                                        >
+                                            {column.id}
                                         </TableCell>
                                     )
                                 )}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {console.log(rowsToShow)}
+                            {rowsToShow.map((row) => (
                                 <TableRow hover key={row.id}>
                                     {columns.map((column) =>
                                         column.Cell ? (
-                                            <column.Cell {...row} />
+                                            <TableCell
+                                                key={row.id}
+                                                className={classes.pointer}
+                                            >
+                                                <column.Cell {...row} />
+                                            </TableCell>
                                         ) : (
                                             <TableCell
                                                 key={column.id}
@@ -121,7 +143,7 @@ export function POSTable<T extends DefaultRow>({
                     </Table>
                 </Box>
             </PerfectScrollbar>
-            {
+            {isPaginated && (
                 <TablePagination
                     component="div"
                     count={rows.length}
@@ -132,12 +154,13 @@ export function POSTable<T extends DefaultRow>({
                     rowsPerPageOptions={[10, 25, 50, 100]}
                     labelDisplayedRows={genPaginationLabel}
                 />
-            }
+            )}
         </Card>
     );
 }
+
 //***************************************************************************** */
-interface MyRow {
+/* interface MyRow {
     id: string;
     name: string;
 }
@@ -145,12 +168,12 @@ interface MyRow {
 const ActionsCell: React.FC<MyRow> = ({ id }) => {
     const handleClick = () => {};
     return <Button onClick={handleClick}>khalid</Button>;
-};
+}; */
 
-const example = () => {
+/* const example = () => {
     return (
         <POSTable<MyRow>
-            rows={[]}
+            rows={[{ id: 'name', name: 'samrah' }]}
             columns={[
                 {
                     id: 'name',
@@ -165,7 +188,7 @@ const example = () => {
                     width: '100',
                 },
                 {
-                    id: 'date',
+                    id: 'datex',
                     align: 'left',
                     Head: '',
                     width: '100',
@@ -181,3 +204,4 @@ const example = () => {
         ></POSTable>
     );
 };
+ */
