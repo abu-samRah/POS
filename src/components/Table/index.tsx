@@ -11,9 +11,15 @@ import {
     TableRow,
     CardHeader,
     Divider,
+    TextField,
+    InputAdornment,
+    SvgIcon,
+    TableSortLabel,
 } from '@material-ui/core';
+import orderByFunc from 'lodash/orderBy';
 import format from 'date-fns/format';
 import useStyles from './style';
+import { Search as SearchIcon } from 'react-feather';
 
 export const formatDate = (date: string) =>
     format(new Date(date), 'yyyy-MM-dd');
@@ -33,6 +39,20 @@ const genPaginationLabel = ({
 
 function applyPagination<T>(rows: T[], page: number, limit: number) {
     return rows.slice(page * limit, page * limit + limit);
+}
+
+function applyFilter<T>(rows: T[], fields: string[], query: string) {
+    if (query.length) {
+        return rows.filter((row) =>
+            fields.find((field) => {
+                //@ts-ignore
+                return `${row[field]}`
+                    .toLowerCase()
+                    .includes(query.toLowerCase());
+            })
+        );
+    }
+    return rows;
 }
 
 interface TableColumnHeading<T> {
@@ -62,8 +82,14 @@ export function POSTable<T extends DefaultRow>({
 }: TableProps<T>): JSX.Element {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
-    const [rowsToshow, setRowsToShow] = useState();
+    const [query, setQuery] = useState('');
+    const [order, setOrder] = useState({
+        by: columns[0].id,
+        direction: true,
+    });
+
     const classes = useStyles();
+
     const handlePageChange = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -73,7 +99,38 @@ export function POSTable<T extends DefaultRow>({
         setLimit(parseInt(event.target.value, 10));
     };
 
-    const paginatedRows = applyPagination(rows, page, limit);
+    const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.persist();
+        setPage(0);
+        setQuery(event.target.value);
+    };
+
+    const getOrder = (booleanOrder: boolean) => (booleanOrder ? 'asc' : 'desc');
+
+    const getOrderDir = (columnId: string) =>
+        order.by === columnId ? getOrder(order.direction) : getOrder(true);
+
+    const sortHandler = (columnId: string) => {
+        setOrder({
+            by: columnId,
+            direction: order.by === columnId ? !order.direction : true,
+        });
+    };
+
+    const filteredRows = applyFilter(
+        rows,
+        columns.map((c) => c.id),
+        query
+    );
+
+    const sortedRows = orderByFunc(
+        filteredRows,
+        //@ts-ignore
+        (e) => e[order.by]?.toLowerCase(),
+        getOrder(order.direction)
+    );
+
+    const paginatedRows = applyPagination(sortedRows, page, limit);
 
     const rowsToShow = isPaginated ? paginatedRows : rows;
 
@@ -81,6 +138,25 @@ export function POSTable<T extends DefaultRow>({
         <Card>
             {title && <CardHeader title={title} />}
             {title && <Divider />}
+
+            <Box p={2} minHeight={56} display="flex" alignItems="center">
+                <TextField
+                    className={classes.queryField}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SvgIcon fontSize="small" color="action">
+                                    <SearchIcon />
+                                </SvgIcon>
+                            </InputAdornment>
+                        ),
+                    }}
+                    onChange={handleQueryChange}
+                    placeholder="Search"
+                    value={query}
+                    variant="outlined"
+                />
+            </Box>
             <PerfectScrollbar>
                 <Box minWidth={900}>
                     <Table>
@@ -104,7 +180,17 @@ export function POSTable<T extends DefaultRow>({
                                             align={column.align}
                                             width={column.width}
                                         >
-                                            {column.id}
+                                            <TableSortLabel
+                                                active={order.by === column.id}
+                                                direction={getOrderDir(
+                                                    column.id
+                                                )}
+                                                onClick={() =>
+                                                    sortHandler(column.id)
+                                                }
+                                            >
+                                                {column.id}
+                                            </TableSortLabel>
                                         </TableCell>
                                     )
                                 )}

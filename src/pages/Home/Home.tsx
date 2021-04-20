@@ -53,21 +53,21 @@ const Example = () => {
     return (
         <POSTable<MyRow>
             rows={[
-                { id: 'name', Name: 'samrah' },
-                { id: 'country', Name: 'jamiaca' },
-                { id: 'country1', Name: 'jamiaca' },
-                { id: 'country2', Name: 'jamiaca' },
-                { id: 'country3', Name: 'jamiaca' },
-                { id: 'country4', Name: 'jamiaca' },
-                { id: 'country5', Name: 'jamiaca' },
-                { id: 'country6', Name: 'jamiaca' },
-                { id: 'country7', Name: 'jamiaca' },
-                { id: 'country8', Name: 'jamiaca' },
-                { id: 'country9', Name: 'jamiaca' },
-                { id: 'country11', Name: 'jamiaca' },
-                { id: 'country22', Name: 'jamiaca' },
-                { id: 'country33', Name: 'jamiaca' },
-                { id: 'country44', Name: 'jamiaca' },
+                { id: 'name', Name: 'a' },
+                { id: 'country', Name: 'b' },
+                { id: 'country1', Name: 'c' },
+                { id: 'country2', Name: 'd' },
+                { id: 'country3', Name: 'e' },
+                { id: 'country4', Name: 'f' },
+                { id: 'country5', Name: 'j' },
+                { id: 'country6', Name: 'h' },
+                { id: 'country7', Name: 'i' },
+                { id: 'country8', Name: 'j' },
+                { id: 'country9', Name: 'k' },
+                { id: 'country11', Name: 'l' },
+                { id: 'country22', Name: 'm' },
+                { id: 'country33', Name: 'n' },
+                { id: 'country44', Name: 'o' },
             ]}
             columns={[
                 {
