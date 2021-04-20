@@ -17,43 +17,11 @@ import {
     TableSortLabel,
 } from '@material-ui/core';
 import orderByFunc from 'lodash/orderBy';
-import format from 'date-fns/format';
+import formatDate from '../../utils/DateFormat';
 import useStyles from './style';
 import { Search as SearchIcon } from 'react-feather';
-
-export const formatDate = (date: string) =>
-    format(new Date(date), 'yyyy-MM-dd');
-
-const genPaginationLabel = ({
-    from,
-    to,
-    count,
-}: {
-    from: number;
-    to: number;
-    count: number;
-}) => {
-    const label = `${from} - ${to} of ${count}`;
-    return label;
-};
-
-function applyPagination<T>(rows: T[], page: number, limit: number) {
-    return rows.slice(page * limit, page * limit + limit);
-}
-
-function applyFilter<T>(rows: T[], fields: string[], query: string) {
-    if (query.length) {
-        return rows.filter((row) =>
-            fields.find((field) => {
-                //@ts-ignore
-                return `${row[field]}`
-                    .toLowerCase()
-                    .includes(query.toLowerCase());
-            })
-        );
-    }
-    return rows;
-}
+import { genPaginationLabel, applyPagination } from '../../utils/Pagenation';
+import applyFilter from '../../utils/FilterTable';
 
 interface TableColumnHeading<T> {
     id: string;
