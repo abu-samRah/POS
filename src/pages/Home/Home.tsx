@@ -6,21 +6,23 @@ import { TableCell, Box } from '@material-ui/core';
 import { POSTable } from '../../components/Table/index';
 import { ArrowRight as ArrowRightIcon } from 'react-feather';
 import useStyles from './styles';
-
+import Categories from '../Categories';
+import { Link } from 'react-router-dom';
+import catagories from '../Categories';
 function setRoutes() {
-    <Suspense fallback={<LoadingScreen />}>
+    {
+        /* <Suspense fallback={<LoadingScreen />}>
         <Switch>
-            {/* <Route path="/login" component={Login} exact />
-            <Route path="/404" component={Login} exact />
-            <Route path="/" component={Login} /> */}
+            <Route path="/app/categories" component={Categories} />
         </Switch>
-    </Suspense>;
+    </Suspense>; */
+    }
 }
 
 function Home() {
     setRoutes();
     const classes = useStyles();
-
+    catagories();
     return (
         <>
             <Navbar />
@@ -31,62 +33,10 @@ function Home() {
                 justifyContent="center"
                 className={classes.conatiner}
             >
-                <Example />
+                <Categories />
             </Box>
         </>
     );
 }
 
 export default Home;
-
-interface MyRow {
-    id: string;
-    Name: string;
-}
-
-const ActionsCell: React.FC<MyRow> = ({ Name }) => {
-    const handleClick = () => {};
-    return <ArrowRightIcon onClick={handleClick}>khalid</ArrowRightIcon>;
-};
-
-const Example = () => {
-    return (
-        <POSTable<MyRow>
-            rows={[
-                { id: 'name', Name: 'a' },
-                { id: 'country', Name: 'b' },
-                { id: 'country1', Name: 'c' },
-                { id: 'country2', Name: 'd' },
-                { id: 'country3', Name: 'e' },
-                { id: 'country4', Name: 'f' },
-                { id: 'country5', Name: 'j' },
-                { id: 'country6', Name: 'h' },
-                { id: 'country7', Name: 'i' },
-                { id: 'country8', Name: 'j' },
-                { id: 'country9', Name: 'k' },
-                { id: 'country11', Name: 'l' },
-                { id: 'country22', Name: 'm' },
-                { id: 'country33', Name: 'n' },
-                { id: 'country44', Name: 'o' },
-            ]}
-            columns={[
-                {
-                    id: 'Name',
-                    align: 'left',
-                    Head: '',
-                    width: '70%',
-                },
-
-                {
-                    id: 'Acitons',
-                    align: 'left',
-                    width: '30%',
-                    Head: TableCell,
-                    Cell: ActionsCell,
-                },
-            ]}
-            title="Products"
-            isPaginated={true}
-        ></POSTable>
-    );
-};

@@ -19,19 +19,19 @@ export const getHeadersData = (
         },
         {
             label: 'Products',
-            href: '/products',
+            href: '/app/products',
             iconName: 'ListIcon',
             icon: <ListIcon className={classes.itemLogo} />,
         },
         {
             label: 'Catagories',
-            href: '/catagories',
+            href: '/app/catagories',
             iconName: 'ScatterPlotIcon',
             icon: <ScatterPlotIcon className={classes.itemLogo} />,
         },
         {
             label: 'Log Out',
-            href: '/logout',
+            href: '/login',
             iconName: 'ExitToAppIcon',
             icon: <ExitToAppIcon className={classes.itemLogo} />,
         },

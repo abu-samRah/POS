@@ -11,26 +11,16 @@
       "password": "1234sam"
     }
   ],
-  "posts": [
+  "catagories": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "id": "1",
+      "Name": "FISIOTERAPIA",
+      "Date": "13/2/2020" 
     },
     {
-      "id": 6,
-      "title": "json-server",
-      "author": "typicode"
+      "id": "2",
+      "Name": "NUTRICION",
+      "Date": "1/3/2021" 
     }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }
